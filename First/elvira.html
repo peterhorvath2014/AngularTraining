@@ -1,0 +1,99 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body ng-app="myApp">
+    <div class="wrapper">
+        <div ng-controller="trainScheduleController">
+            <header>
+                <div class="uui-header dark-gray">
+                    <nav>
+                        <div class="sidebar-toggle-box blue">
+                            <div data-toggle="tooltip" data-placement="right" title="Toggle Navigation" class="sidebar-tooltip">
+                                <span class="fa fa-reorder"></span>
+                            </div>
+                        </div>
+                        <div class="epam-logo show-new-style">
+                            <img src="asset/images/Logo_Epam_Color.svg" alt="" width="86" />
+                        </div>
+                        <a href="#" class="brand-logo" ng-click="hideSchedule()">
+                            <img src="asset/images/ic_logo_UUi.svg" alt="" width="38" /> {{title}}
+                        </a>
+                    </nav>
+                </div>
+            </header>
+            <aside>
+                <div class="uui-side-bar blue" data-animate="true">
+                    <ul class="sidebar-menu">
+                        <li ng-repeat="(key, value) in data">
+                            <a href="" ng-click="refreshScheduleFromElvira(value)"><span>Budapest - {{value}}</span>
+                                    </a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+            <div class="uui-main-container" style="margin-left: 0px;">
+                <div id="loading" class="loading" ng-show="showLoading"></div>
+                <main ng-show="showScheduleTable">
+                    <article>
+                        <div class="main-heading">
+                            <h1>{{defaultSelectedTitlePrefix}} Budapest - {{targetCity}}</h1>
+                        </div>
+                    </article>
+                    <div class="main-content">
+                        <table class="uui-table">
+                            <thead>
+                                <tr>
+                                    <th>Start</th>
+                                    <th>Departure time</th>
+                                    <th>Arrival time</th>
+                                    <th>Total time</th>
+                                    <th>Distance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="(key, schedule) in actualScheduleList">
+                                    <td>{{schedule.start}}</td>
+                                    <td>{{schedule.starttime}}</td>
+                                    <td>{{schedule.destinationtime}}</td>
+                                    <td>{{schedule.totaltime}}</td>
+                                    <td>{{schedule.distance}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="asset/angular/angular.min.js"></script>
+    <!-- jQuery Core -->
+    <script src="asset/js/lib/jquery-1.11.1.min.js"></script>
+
+    <!-- Bootstrap Core -->
+    <link rel="stylesheet" href="asset/bootstrap/css/bootstrap.min.css" />
+    <script src="asset/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- EPAM UUI JavaScript Core -->
+    <script src="asset/js/uui-core.min.js" type="text/javascript"></script>
+
+    <!-- EPAM UUI Styles Core -->
+    <link rel="stylesheet" href="asset/css/uui-all.css" />
+
+    <!-- Custom CSS Styles -->
+    <link rel="stylesheet" href="asset/css/custom-styles.css" />
+
+    <!-- Scroll for UUI Sidebar -->
+    <link rel="stylesheet" href="asset/css/lib/components/jquery.mCustomScrollbar.css" />
+    <script src="asset/js/lib/components/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <script src="asset/js/app.js"></script>
+    <script src="asset/js/trainSchedule/trainScheduleFactory.js"></script>
+    <script src="asset/js/trainSchedule/trainScheduleController.js"></script>
+    <link rel="stylesheet" href="asset/fonts/font-awesome/css/font-awesome.min.css" />
+</body>
+
+</html>

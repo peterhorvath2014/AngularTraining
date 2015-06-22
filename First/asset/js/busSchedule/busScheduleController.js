@@ -36,4 +36,5 @@ myApp.controller('busScheduleController', function busScheduleController($scope,
     $scope.hideSchedule = function() {
         $scope.showScheduleTable = false;
     }
+    
 });

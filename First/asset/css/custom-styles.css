@@ -1,3 +1,9 @@
+.loading {
+    background: url("../images/loader.svg") no-repeat center center;
+    height: 100%;
+    width: 100%;
+}
+
 @font-face {
     font-family: 'Oswald Regular';
     src: url(../fonts/font-oswald/oswald-regular.eot);
