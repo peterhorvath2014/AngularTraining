@@ -8978,7 +8978,18 @@ main.promo-container .promo-section .section-wrapper {
 }
 
 .uui-side-bar .sidebar-menu>li {
-    list-style: none
+    list-style: none;
+}
+
+#mCSB_1_container > ul > li > a.remove {
+    /*display: -webkit-inline-box;*/
+    
+    text-align: -webkit-right;
+    height: 0px;
+    line-height: 20px;
+    box-shadow: none;
+    margin-right: 10px;
+    margin-top: 0px;
 }
 
 .uui-side-bar .sidebar-menu>li>a {

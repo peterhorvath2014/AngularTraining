@@ -27,9 +27,11 @@
             <aside>
                 <div class="uui-side-bar blue" data-animate="true">
                     <ul class="sidebar-menu">
-                        <li ng-repeat="(key, value) in data">
-                            <a href="" ng-click="refreshScheduleFromElvira(value)"><span>Budapest - {{value}}</span>
-                                    </a>
+                        <li ng-repeat="(key, value) in targetCities" class="">
+                            <a href="" ng-click="removeCityFromMenu($index)" class="remove"><span>X</span></a><a href="" ng-click="refreshScheduleFromElvira(value)"><span>Budapest - {{value}}</span></a>
+                        </li>
+                        <li>
+                            <a href="" ng-click="resetToDefaultCities()"><span>Reset to default</span></a>
                         </li>
                     </ul>
                 </div>
@@ -39,10 +41,11 @@
                 <main ng-show="showScheduleTable">
                     <article>
                         <div class="main-heading">
-                            <h1>{{defaultSelectedTitlePrefix}} Budapest - {{targetCity}}</h1>
+                            <h1>{{defaultSelectedTitlePrefix}} Budapest - {{targetCity}} ({{date}})</h1>
                         </div>
                     </article>
                     <div class="main-content">
+                        <input type="text" class="uui-form-element" placeholder="Type here to search in Start column..." ng-model="searchText" />
                         <table class="uui-table">
                             <thead>
                                 <tr>
@@ -54,7 +57,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="(key, schedule) in actualScheduleList">
+                                <tr ng-repeat="(key, schedule) in actualScheduleList | filter:ignoreAccents">
                                     <td>{{schedule.start}}</td>
                                     <td>{{schedule.starttime}}</td>
                                     <td>{{schedule.destinationtime}}</td>
@@ -91,6 +94,7 @@
     <script src="asset/js/lib/components/jquery.mCustomScrollbar.concat.min.js"></script>
 
     <script src="asset/js/app.js"></script>
+    <script src="asset/js/commonServices/localStorageService.js"></script>
     <script src="asset/js/trainSchedule/trainScheduleFactory.js"></script>
     <script src="asset/js/trainSchedule/trainScheduleController.js"></script>
     <link rel="stylesheet" href="asset/fonts/font-awesome/css/font-awesome.min.css" />
