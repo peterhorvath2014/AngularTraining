@@ -8981,6 +8981,17 @@ main.promo-container .promo-section .section-wrapper {
     list-style: none;
 }
 
+#mCSB_1_container > ul > li > button {
+    width: 100%;
+}
+
+#mCSB_1_container > ul > li > a.cached {
+    background-image: url("../images/icons/cached.png");
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+}
+
 #mCSB_1_container > ul > li > a.remove {
     /*display: -webkit-inline-box;*/
     

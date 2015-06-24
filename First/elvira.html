@@ -28,7 +28,11 @@
                 <div class="uui-side-bar blue" data-animate="true">
                     <ul class="sidebar-menu">
                         <li ng-repeat="(key, value) in targetCities" class="">
-                            <a href="" ng-click="removeCityFromMenu($index)" class="remove"><span>X</span></a><a href="" ng-click="refreshScheduleFromElvira(value)"><span>Budapest - {{value}}</span></a>
+                            <a href="" ng-click="removeCityFromMenu($index)" class="remove"><span>X</span></a><a href="" ng-click="refreshScheduleFromElvira(value)" ng-class="{cached: $storage[value]}"><span>Budapest - {{value}} {{angular.isObject($storage[value])}}</span></a>
+                        </li>
+                        <li>
+                            <input type="text" class="uui-form-element" placeholder="Target city..." ng-model="targetCityText" ng-enter="addCityToMenu(targetCityText)" />
+                            <button class="uui-button search-button" ng-click="addCityToMenu(targetCityText)">Search...</button>
                         </li>
                         <li>
                             <a href="" ng-click="resetToDefaultCities()"><span>Reset to default</span></a>
@@ -92,9 +96,8 @@
     <!-- Scroll for UUI Sidebar -->
     <link rel="stylesheet" href="asset/css/lib/components/jquery.mCustomScrollbar.css" />
     <script src="asset/js/lib/components/jquery.mCustomScrollbar.concat.min.js"></script>
-
+    <script src="bower_components/ngstorage/ngStorage.min.js"></script>
     <script src="asset/js/app.js"></script>
-    <script src="asset/js/commonServices/localStorageService.js"></script>
     <script src="asset/js/trainSchedule/trainScheduleFactory.js"></script>
     <script src="asset/js/trainSchedule/trainScheduleController.js"></script>
     <link rel="stylesheet" href="asset/fonts/font-awesome/css/font-awesome.min.css" />

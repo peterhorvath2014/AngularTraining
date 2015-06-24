@@ -1,4 +1,4 @@
-myApp.factory('trainScheduleFactory', ['$http', '$q', '$log', 'localStorageService', function trainScheduleFactory($http, $q, $log, localStorageService) {
+myApp.factory('trainScheduleFactory', ['$http', '$q', '$log', '$localStorage', function trainScheduleFactory($http, $q, $log, $localStorage) {
     var defaultCities = [
                 "Szeged",
                 "Debrecen",
@@ -8,12 +8,11 @@ myApp.factory('trainScheduleFactory', ['$http', '$q', '$log', 'localStorageServi
                 "Győr",
                 "Székesfehérvár"
             ];
-
+  
     return {
         getScheduleFromElvira: function (to) {
-            var routeFromLocalStorage = localStorageService.getDataFromLocalStorage(to);
-            if (angular.isObject(routeFromLocalStorage)) {
-                return $q.when(routeFromLocalStorage);
+            if (angular.isObject($localStorage[to])) {
+                return $q.when($localStorage[to]);
             } else {
                 return $http({
                     url: 'http://apiv2.oroszi.net/elvira',
@@ -25,7 +24,7 @@ myApp.factory('trainScheduleFactory', ['$http', '$q', '$log', 'localStorageServi
                 }).then(
                     function (response) {
                         if (typeof response.data === 'object') {
-                            localStorageService.setDataToLocalStorage(to, response.data);
+                            $localStorage[to] = response.data;
                             return response.data;
                         } else {
                             // invalid response
@@ -39,33 +38,21 @@ myApp.factory('trainScheduleFactory', ['$http', '$q', '$log', 'localStorageServi
             }
         },
         getCities: function () {
-            var targetCities = defaultCities;
-            var targetCitiesFromLocalStorage = localStorageService.getDataFromLocalStorage('targetCities');
-            if (!angular.isArray(targetCitiesFromLocalStorage)) {
-                localStorageService.setDataToLocalStorage('targetCities', angular.toJson(defaultCities));
-            } else {
-                targetCities = targetCitiesFromLocalStorage;
-            }
-            $log.log("targetCities: " + targetCities);
-            return targetCities;
+            return (angular.isArray($localStorage.targetCities) ? $localStorage.targetCities : defaultCities);
         },
         removeCity: function (idx) {
-            var targetCities = defaultCities;
-            var targetCitiesFromLocalStorage = localStorageService.getDataFromLocalStorage('targetCities');
-            if (angular.isArray(targetCitiesFromLocalStorage)) {
-                targetCitiesFromLocalStorage.splice(idx, 1);
-                localStorageService.setDataToLocalStorage('targetCities', targetCitiesFromLocalStorage);
-                targetCities = targetCitiesFromLocalStorage;
+            $localStorage.targetCities.splice(idx, 1)
+            return $localStorage.targetCities;
+        },
+        addCity: function (cityName) {
+            if ($localStorage.targetCities.indexOf(cityName) == -1) {
+                $localStorage.targetCities.push(cityName);
             }
-            $log.log("targetCities: " + targetCities);
-            return targetCities;
+            return $localStorage.targetCities;
         },
         resetToDefaultCities: function () {
-            var targetCities = defaultCities;
-            var targetCitiesFromLocalStorage = localStorageService.getDataFromLocalStorage('targetCities');
-            localStorageService.setDataToLocalStorage('targetCities', angular.toJson(defaultCities));
-            $log.log("targetCities: " + targetCities);
-            return targetCities;
+            $localStorage.targetCities = defaultCities;
+            return $localStorage.targetCities;
         }
     }
             }]);

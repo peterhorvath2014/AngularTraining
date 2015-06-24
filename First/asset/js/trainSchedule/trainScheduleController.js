@@ -1,4 +1,4 @@
-myApp.controller('trainScheduleController', ['$scope', '$log', 'trainScheduleFactory', function trainScheduleController($scope, $log, trainScheduleFactory) {
+myApp.controller('trainScheduleController', ['$scope', '$log', 'trainScheduleFactory', '$localStorage', function trainScheduleController($scope, $log, trainScheduleFactory, $localStorage) {
     angular.element(document).ready(function () {
         UUI.Vertical_Menu.init({
             open: true
@@ -13,6 +13,7 @@ myApp.controller('trainScheduleController', ['$scope', '$log', 'trainScheduleFac
     $scope.showLoading = false;
     $scope.targetCities = trainScheduleFactory.getCities();
     $scope.actualScheduleList = [];
+    $scope.$storage = $localStorage;
 
     $scope.hideSchedule = function () {
         $scope.searchText = "";
@@ -65,6 +66,13 @@ myApp.controller('trainScheduleController', ['$scope', '$log', 'trainScheduleFac
 
     $scope.removeCityFromMenu = function (idx) {
         $scope.targetCities = trainScheduleFactory.removeCity(idx);
+    }
+    
+    $scope.addCityToMenu = function (newTargetCity) {
+        $log.debug(newTargetCity);
+        $scope.refreshScheduleFromElvira(newTargetCity);
+        $scope.targetCities = trainScheduleFactory.addCity(newTargetCity);
+        $scope.targetCityText = "";
     }
 
     $scope.resetToDefaultCities = function () {
