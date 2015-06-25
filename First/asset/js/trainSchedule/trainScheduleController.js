@@ -56,6 +56,8 @@ myApp.controller('trainScheduleController', ['$scope', '$log', 'trainScheduleFac
     }
 
     $scope.ignoreAccents = function (item) {
+        $log.debug("$scope.searchText: " + $scope.searchText);
+        $log.debug(item);
         if (!$scope.searchText) {
             return true;
         }
