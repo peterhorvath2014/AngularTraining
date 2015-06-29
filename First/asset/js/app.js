@@ -25,6 +25,9 @@ myApp.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('scheduleDiagram', {
             url: "/scheduleDiagram",
-            templateUrl: "asset/js/trainSchedule/scheduleDiagram.html"
+            templateUrl: "asset/js/trainSchedule/scheduleDiagram.html",
+            controller: function ($scope) {
+                $scope.drawDiagram();
+            }
         })
 })

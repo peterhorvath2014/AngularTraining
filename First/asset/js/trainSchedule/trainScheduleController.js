@@ -26,17 +26,20 @@ myApp.controller('trainScheduleController', ['$scope', '$log', 'trainScheduleFac
         $scope.hideSchedule();
         $scope.showLoading = true;
         var promise = trainScheduleFactory.getScheduleFromElvira(targetCity);
-        
+
         promise.then(function (data) {
             $log.debug(data);
             $scope.actualScheduleList = data.timetable;
             $scope.date = data.date;
             $scope.showLoading = false;
             $scope.showScheduleTable = true;
+            $scope.drawDiagram();
+            $scope.drawDiagram();
         }, function (error) {
             console.log('failure loading data', error);
             $scope.showLoading = false;
         });
+
     }
 
     function removeAccents(value) {
@@ -69,7 +72,7 @@ myApp.controller('trainScheduleController', ['$scope', '$log', 'trainScheduleFac
     $scope.removeCityFromMenu = function (idx) {
         $scope.targetCities = trainScheduleFactory.removeCity(idx);
     }
-    
+
     $scope.addCityToMenu = function (newTargetCity) {
         $log.debug(newTargetCity);
         $scope.refreshScheduleFromElvira(newTargetCity);
@@ -79,5 +82,37 @@ myApp.controller('trainScheduleController', ['$scope', '$log', 'trainScheduleFac
 
     $scope.resetToDefaultCities = function () {
         $scope.targetCities = trainScheduleFactory.resetToDefaultCities();
+    }
+
+    var formatTime = d3.time.format("%H:%M");
+	var formatMinutes = function(d) {
+		return formatTime(new Date(2012, 0, 1, 0, d));
+	}
+    
+    $scope.drawDiagram = function () {
+        $scope.chart = c3.generate({
+            bindto: '#totalTimeDiagram',
+            data: {
+                x: 'x',
+                xFormat: '%H:%M',
+                columns: trainScheduleFactory.getDataForDiagram($scope.actualScheduleList),
+                names: {
+                    data1: 'Total time',
+                }
+            },
+            axis: {
+                x: {
+                    type: 'timeseries',
+                    tick: {
+                        format: '%H:%M'
+                    }
+                },
+                y: {
+                    tick: {
+                        format: formatMinutes
+                    }
+                },
+            }
+        });
     }
 }]);

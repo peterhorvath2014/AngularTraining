@@ -8,7 +8,7 @@ myApp.factory('trainScheduleFactory', ['$http', '$q', '$log', '$localStorage', f
                 "Győr",
                 "Székesfehérvár"
             ];
-  
+
     return {
         getScheduleFromElvira: function (to) {
             if (angular.isObject($localStorage[to])) {
@@ -53,6 +53,24 @@ myApp.factory('trainScheduleFactory', ['$http', '$q', '$log', '$localStorage', f
         resetToDefaultCities: function () {
             $localStorage.targetCities = defaultCities;
             return $localStorage.targetCities;
+        },
+        getDataForDiagram: function (actualData) {
+            var x = ['x'];
+            angular.forEach(actualData, function (value) {
+                this.push(value.starttime);
+            }, x);
+
+            var data1 = ['data1'];
+            angular.forEach(actualData, function (value) {
+                var totaltimeArray = value.totaltime.split(":");
+                this.push(parseInt(totaltimeArray[0]) * 60 + parseInt(totaltimeArray[1]));
+            }, data1);
+
+            var result = []
+            result.push(x);
+            result.push(data1);
+
+            return result;
         }
     }
             }]);
