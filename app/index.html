@@ -1,0 +1,104 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body ng-app="myApp">
+    <div class="wrapper">
+        <div ng-controller="trainScheduleController">
+            <header>
+                <div class="uui-header dark-gray">
+                    <nav>
+                        <div class="sidebar-toggle-box blue">
+                            <div data-toggle="tooltip" data-placement="right" title="Toggle Navigation" class="sidebar-tooltip">
+                                <span class="fa fa-reorder"></span>
+                            </div>
+                        </div>
+                        <div class="epam-logo show-new-style">
+                            <img src="asset/images/Logo_Epam_Color.svg" alt="" width="86" />
+                        </div>
+                        <a href="#" class="brand-logo" ng-click="hideSchedule()">
+                            <img src="asset/images/ic_logo_UUi.svg" alt="" width="38" /> {{title}}
+                        </a>
+                    </nav>
+                </div>
+            </header>
+            <aside>
+                <div class="uui-side-bar blue" data-animate="true">
+                    <ul class="sidebar-menu">
+                        <li ng-repeat="value in targetCities">
+                            <a href="" ng-click="removeCityFromMenu($index)" class="remove"><span>X</span></a><a href="" ng-click="refreshScheduleFromElvira(value)" ng-class="{cached: $storage[value]}"><span>Budapest - {{value}} {{angular.isObject($storage[value])}}</span></a>
+                        </li>
+                        <li>
+                            <form name="searchForm" novalidate="" role="form">
+                                <input type="text" class="uui-form-element" placeholder="Type target city here..." ng-model="targetCityText" name="targetCityText" ng-enter="addCityToMenu(targetCityText)" required ng-minlength=3 validate-target-city/>
+                                <button type="submit" class="uui-button lime-green fa fa-search" ng-class="{'disable':(searchForm.$invalid || searchForm.targetCityText.$error.invalidTargetCity)}" ng-click="addCityToMenu(targetCityText)" ng-disabled="searchForm.$invalid">
+                                    Search
+                                </button>
+                            </form>
+                        </li>
+                        <li class="reset">
+                            <button class="uui-button lime-green fa fa-refresh" ng-click="resetToDefaultCities()"> Reset menu to default</button>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+            <div class="uui-main-container" style="margin-left: 0px;">
+
+                <div id="loading" class="loading" ng-show="showLoading"></div>
+                <main ng-show="showScheduleTable">
+                    <article>
+                        <div class="main-heading">
+                            <h1>{{defaultSelectedTitlePrefix}} Budapest - {{targetCity}} <span ng-if="actualScheduleList">({{date}})</span><span class="errorMessage" ng-if="actualScheduleListError">Unknown target</span></h1>
+                        </div>
+                    </article>
+                    <ul class="uui-navigation nav navbar-nav" ng-show="showScheduleTable">
+                        <li>
+                            <a ui-sref="scheduleTable">Schedule Table</a>
+                        </li>
+                        <li>
+                            <a ui-sref="scheduleDiagram">Schedule Diagram</a>
+                        </li>
+                    </ul>
+                    <div class="main-content" ui-view></div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script src="bower_components/angular/angular.min.js"></script>
+    <!-- jQuery Core -->
+    <script src="asset/js/lib/jquery-1.11.1.min.js"></script>
+
+    <!-- Bootstrap Core -->
+    <link rel="stylesheet" href="asset/bootstrap/css/bootstrap.min.css" />
+    <script src="asset/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- EPAM UUI JavaScript Core -->
+    <script src="asset/js/uui-core.min.js" type="text/javascript"></script>
+
+    <!-- EPAM UUI Styles Core -->
+    <link rel="stylesheet" href="asset/css/uui-all.css" />
+
+    <!-- Custom CSS Styles -->
+    <link rel="stylesheet" href="asset/css/custom-styles.css" />
+
+    <!-- Scroll for UUI Sidebar -->
+    <link rel="stylesheet" href="asset/css/lib/components/jquery.mCustomScrollbar.css" />
+    <script src="asset/js/lib/components/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="bower_components/ngstorage/ngStorage.min.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <link rel="stylesheet" href="bower_components/c3/c3.min.css" />
+    <script src="bower_components/d3/d3.min.js"></script>
+    <script src="bower_components/c3/c3.min.js"></script>
+    <script src="bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
+    <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.min.css" />
+    
+    <script src="asset/js/app.js"></script>
+    <script src="asset/js/trainSchedule/trainScheduleFactory.js"></script>
+    <script src="asset/js/trainSchedule/trainScheduleController.js"></script>
+    <link rel="stylesheet" href="asset/fonts/font-awesome/css/font-awesome.min.css" />
+</body>
+
+</html>

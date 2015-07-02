@@ -1,0 +1,22 @@
+<input type="text" class="uui-form-element" placeholder="Type here to search in Start column..." ng-model="$parent.searchText" />
+<table class="uui-table sort dark-blue">
+    <thead>
+        <tr>
+            <th ng-click="$parent.reverse=!$parent.reverse;$parent.orderColumn='start'" ng-class="{'active':orderColumn=='start'}">Start <i class="fa" ng-class="{'fa-chevron-down': reverse && orderColumn=='start', 'fa-chevron-up': !reverse && orderColumn=='start'}"></th>
+            <th ng-click="$parent.reverse=!$parent.reverse;$parent.orderColumn='starttime'" ng-class="{'active':orderColumn=='starttime'}">Departure time <i class="fa" ng-class="{'fa-chevron-down': reverse && orderColumn=='starttime', 'fa-chevron-up': !reverse && orderColumn=='starttime'}"></i>
+            </th>
+            <th ng-click="$parent.reverse=!$parent.reverse;$parent.orderColumn='destinationtime'" ng-class="{'active':orderColumn=='destinationtime'}">Arrival time <i class="fa" ng-class="{'fa-chevron-down': reverse && orderColumn=='destinationtime', 'fa-chevron-up': !reverse && orderColumn=='destinationtime'}"></th>
+            <th ng-click="$parent.reverse=!$parent.reverse;$parent.orderColumn='totaltime'" ng-class="{'active':orderColumn=='totaltime'}">Total time <i class="fa" ng-class="{'fa-chevron-down': reverse && orderColumn=='totaltime', 'fa-chevron-up': !reverse && orderColumn=='totaltime'}"></th>
+            <th ng-click="$parent.reverse=!$parent.reverse;$parent.orderColumn='distance'" ng-class="{'active':orderColumn=='distance'}">Distance <i class="fa" ng-class="{'fa-chevron-down': reverse && orderColumn=='distance', 'fa-chevron-up': !reverse && orderColumn=='distance'}"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="schedule in actualScheduleList | filter:ignoreAccents | orderBy:orderColumn:reverse">
+            <td>{{schedule.start}}</td>
+            <td>{{schedule.starttime}}</td>
+            <td>{{schedule.destinationtime}}</td>
+            <td>{{schedule.totaltime}}</td>
+            <td>{{schedule.distance}}</td>
+        </tr>
+    </tbody>
+</table>
